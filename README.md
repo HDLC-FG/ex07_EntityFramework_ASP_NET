@@ -1,1 +1,1 @@
-# ex07_EntityFramework_ASP_NET
+# ex06_EntityFramework

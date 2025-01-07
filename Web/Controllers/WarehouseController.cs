@@ -2,11 +2,11 @@
 using ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exercice_5_MVC.Controllers
+namespace Web.Controllers
 {
     public class WarehouseController : Controller
     {
-        private readonly IWarehouseService warehouseService; 
+        private readonly IWarehouseService warehouseService;
 
         public WarehouseController(IWarehouseService warehouseService)
         {
@@ -128,6 +128,6 @@ namespace Exercice_5_MVC.Controllers
             {
                 return View();
             }
-        }  
+        }
     }
 }

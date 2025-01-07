@@ -2,7 +2,7 @@
 using Web.ViewModels;
 using static ApplicationCore.Enums;
 
-namespace Exercice_5_MVC
+namespace Web
 {
     public static class ExtensionMethods
     {
@@ -13,8 +13,8 @@ namespace Exercice_5_MVC
             return new OrderViewModel
             {
                 Id = order.Id,
-                CustomerName = $"{order.Customer.FirstName} {order.Customer.LastName}",
-                Email = order.Customer.Email,
+                CustomerName = order.Customer != null ? $"{order.Customer.FirstName} {order.Customer.LastName}" : string.Empty,
+                Email = order.Customer?.Email,
                 ShippingAddress = $"{order.Address.Street}, {order.Address.ZipCode} {order.Address.City} - {order.Address.Country}",
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,

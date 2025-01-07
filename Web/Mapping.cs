@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Models;
 using Web.ViewModels;
 
-namespace Exercice_5_MVC
+namespace Web
 {
     public class Mapping
     {

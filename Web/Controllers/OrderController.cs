@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Web.ViewModels;
 
-namespace Exercice_5_MVC.Controllers
+namespace Web.Controllers
 {
     public class OrderController : Controller
     {
@@ -15,8 +15,8 @@ namespace Exercice_5_MVC.Controllers
         private readonly IArticleService articleService;
         private static List<ArticleSelectedViewModel> articleSelectedViewModels = new List<ArticleSelectedViewModel>();
 
-        public OrderController(IOrderService orderService, 
-            IOrderDetailService orderDetailService, 
+        public OrderController(IOrderService orderService,
+            IOrderDetailService orderDetailService,
             IArticleService articleService)
         {
             var context = new Infrastructure.ApplicationDbContext();
@@ -35,8 +35,8 @@ namespace Exercice_5_MVC.Controllers
         // GET: OrderController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var orders = await orderService.GetAll();
-            return View(orders.FirstOrDefault(x => x.Id == id));
+            var order = await orderService.Get(id);
+            return View(order?.ToViewModel());
         }
 
         // GET: OrderController/Create
@@ -56,7 +56,7 @@ namespace Exercice_5_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(OrderViewModel viewModel)
         {
-            if(articleSelectedViewModels.Count > 0)
+            if (articleSelectedViewModels.Count > 0)
             {
                 ModelState["ListArticlesSelected"].ValidationState = ModelValidationState.Valid;
             }
@@ -74,12 +74,12 @@ namespace Exercice_5_MVC.Controllers
 
             var orders = await orderService.GetAll();
             viewModel.Id = orders.Max(x => x.Id) + 1;
-            
+
             var i = 1;
             foreach (var articleSelected in articleSelectedViewModels)
             {
                 var article = articles.FirstOrDefault(x => x.Id == articleSelected.Id)!;
-                if(article.StockQuantity >= articleSelected.Qte)
+                if (article.StockQuantity >= articleSelected.Qte)
                 {
                     viewModel.OrderDetails.Add(new OrderDetailViewModel
                     {
@@ -218,7 +218,7 @@ namespace Exercice_5_MVC.Controllers
                 stringWriter,
                 new HtmlHelperOptions()
             );
-            
+
             // Rendre la vue en HTML dans le StringWriter
             viewResult.View.RenderAsync(viewContext).GetAwaiter().GetResult();
 

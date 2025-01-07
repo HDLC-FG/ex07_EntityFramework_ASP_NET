@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels;
 
-namespace Exercice_5_MVC.Controllers
+namespace Web.Controllers
 {
     public class HomeController : Controller
     {

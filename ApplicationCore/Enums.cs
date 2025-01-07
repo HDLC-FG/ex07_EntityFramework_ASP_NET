@@ -4,10 +4,11 @@
     {
         public enum OrderStatus
         {
-            Passed,
-            InProgress,
+            Processing,
             Shipped,
-            Delivered
+            Delivered,
+            Cancelled,
+            Returned
         }
     }
 }

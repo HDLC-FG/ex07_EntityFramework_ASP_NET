@@ -1,5 +1,8 @@
+using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Services;
+using Infrastructure;
+using Infrastructure.Repositories;
 
 namespace WebApplication1
 {
@@ -9,10 +12,17 @@ namespace WebApplication1
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<ApplicationDbContext>();
+
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             builder.Services.AddScoped<IArticleService, ArticleService>();
             builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+            builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

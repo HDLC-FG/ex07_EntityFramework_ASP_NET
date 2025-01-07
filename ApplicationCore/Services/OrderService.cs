@@ -13,6 +13,11 @@ namespace ApplicationCore.Services
             this.orderRepository = orderRepository;
         }
 
+        public async Task<IList<Order>> GetAll()
+        {
+            return await orderRepository.GetAll();
+        }
+
         public async Task<Order?> Get(int id)
         {
             return await orderRepository.GetById(id);
@@ -23,9 +28,22 @@ namespace ApplicationCore.Services
             await orderRepository.Add(order);
         }
 
+        public async Task Update(Order order)
+        {
+            await orderRepository.Update(order);
+        }
+
         public async Task Delete(int id)
         {
-            await orderRepository.Delete(id);
+            var order = await orderRepository.GetById(id);
+            if(order != null)
+            {
+                await orderRepository.Delete(order);
+            }
+            else
+            {
+                throw new Exception("Order does not exist");
+            }
         }
 
         public async Task<IList<Order>> GetAllOrdersByCustomer(int customerId)

@@ -13,14 +13,11 @@ namespace TestApplicationCore.Services.OrderDetailService
             var mock = new Mock<IOrderDetailRepository>(MockBehavior.Strict);
 
             var orderDetail = new OrderDetail();
-            mock.Setup(x => x.Add(orderDetail)).ReturnsAsync(1);
+            mock.Setup(x => x.Add(orderDetail)).Returns(Task.CompletedTask);
 
             var service = new ApplicationCore.Services.OrderDetailService(mock.Object);
 
-            var result = service.Add(orderDetail).Result;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result);
+            service.Add(orderDetail).Wait();
         }
     }
 }

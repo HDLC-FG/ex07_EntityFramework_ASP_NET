@@ -4,6 +4,7 @@ namespace ApplicationCore.Interfaces.Services
 {
     public interface IOrderDetailService
     {
-        Task<int> Add(OrderDetail orderDetail);
+        Task<IList<OrderDetail>> GetAll();
+        Task Add(OrderDetail orderDetail);
     }
 }

@@ -13,9 +13,14 @@ namespace ApplicationCore.Services
             this.orderDetailRepository = orderDetailRepository;
         }
 
-        public async Task<int> Add(OrderDetail orderDetail)
+        public async Task<IList<OrderDetail>> GetAll()
         {
-            return await orderDetailRepository.Add(orderDetail);
+            return await orderDetailRepository.GetAll();
+        }
+
+        public async Task Add(OrderDetail orderDetail)
+        {
+            await orderDetailRepository.Add(orderDetail);
         }
     }
 }

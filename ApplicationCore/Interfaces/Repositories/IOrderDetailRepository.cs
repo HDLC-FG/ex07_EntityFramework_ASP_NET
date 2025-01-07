@@ -2,8 +2,7 @@
 
 namespace ApplicationCore.Interfaces.Repositories
 {
-    public interface IOrderDetailRepository
+    public interface IOrderDetailRepository : IRepository<OrderDetail>
     {
-        Task<int> Add(OrderDetail orderDetail);
     }
 }

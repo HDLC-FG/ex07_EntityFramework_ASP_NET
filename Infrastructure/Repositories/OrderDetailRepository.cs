@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -12,10 +13,32 @@ namespace Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task<int> Add(OrderDetail orderDetail)
+        public async Task<IList<OrderDetail>> GetAll()
         {
-            await context.OrderDetails.AddAsync(orderDetail);
-            return await context.SaveChangesAsync();
+            return await context.OrderDetails.ToListAsync();
+        }
+
+        public async Task<OrderDetail?> GetById(int id)
+        {
+            return await context.OrderDetails.FindAsync(id);
+        }
+
+        public async Task Add(OrderDetail entity)
+        {
+            await context.OrderDetails.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Update(OrderDetail entity)
+        {
+            context.OrderDetails.Update(entity);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Delete(OrderDetail entity)
+        {
+            context.OrderDetails.Remove(entity);
+            await context.SaveChangesAsync();
         }
     }
 }

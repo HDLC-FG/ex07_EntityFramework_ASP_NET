@@ -23,7 +23,7 @@ namespace TestInfrastructure.Repositories.Order
         {
             using (var context = new ApplicationDbContext(_dbContextOptions, true))
             {
-                context.Orders.Add(new ApplicationCore.Models.Order
+                var order = new ApplicationCore.Models.Order
                 {
                     Id = 1,
                     Customer = new Customer
@@ -42,12 +42,13 @@ namespace TestInfrastructure.Repositories.Order
                         new ApplicationCore.Models.OrderDetail { Id = 3 }
                     },
                     Warehouse = new ApplicationCore.Models.Warehouse { Id = 4 }
-                });
+                };
+                context.Orders.Add(order);
                 context.SaveChangesAsync().Wait();
 
                 var repository = new OrderRepository(context);
 
-                repository.Delete(1).Wait();
+                repository.Delete(order).Wait();
 
                 var result = context.Orders;
                 Assert.IsNotNull(result);

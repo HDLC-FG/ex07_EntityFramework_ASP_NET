@@ -13,6 +13,11 @@ namespace ApplicationCore.Services
             this.articleRepository = articleRepository;
         }
 
+        public async Task<IList<Article>> GetAll()
+        {
+            return await articleRepository.GetAll();
+        }
+
         public async Task<Article?> Get(int id)
         {
             return await articleRepository.GetById(id);

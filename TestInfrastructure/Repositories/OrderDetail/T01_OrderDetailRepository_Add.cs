@@ -23,7 +23,7 @@ namespace TestInfrastructure.Repositories.OrderDetail
             {
                 var repository = new OrderDetailRepository(context);
 
-                _ = repository.Add(new ApplicationCore.Models.OrderDetail
+                repository.Add(new ApplicationCore.Models.OrderDetail
                 {
                     Id = 1,
                     Order = new ApplicationCore.Models.Order
@@ -39,7 +39,7 @@ namespace TestInfrastructure.Repositories.OrderDetail
                     },
                     Quantity = 10,
                     UnitPrice = 100
-                }).Result;
+                }).Wait();
 
                 var result = context.OrderDetails.First();
                 Assert.IsNotNull(result);

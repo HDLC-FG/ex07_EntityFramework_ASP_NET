@@ -35,10 +35,8 @@ namespace Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Order entity)
         {
-            var entity = await context.Orders.FindAsync(id);
-            if (entity == null) throw new Exception("Order does not exist");
             context.Orders.Remove(entity);
             await context.SaveChangesAsync();
         }

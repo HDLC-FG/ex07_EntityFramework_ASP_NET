@@ -72,10 +72,6 @@ namespace Web.Controllers
                 return View(viewModel);
             }
 
-            var orders = await orderService.GetAll();
-            viewModel.Id = orders.Max(x => x.Id) + 1;
-
-            var i = 1;
             foreach (var articleSelected in articleSelectedViewModels)
             {
                 var article = articles.FirstOrDefault(x => x.Id == articleSelected.Id)!;
@@ -83,22 +79,16 @@ namespace Web.Controllers
                 {
                     viewModel.OrderDetails.Add(new OrderDetailViewModel
                     {
-                        Id = i,
-                        OrderId = (int)viewModel.Id,
-                        Order = viewModel,
                         ArticleId = articleSelected.Id,
-                        Article = article.ToViewModel(),
                         Quantity = articleSelected.Qte,
                         UnitPrice = article.Price
                     });
-                    i++;
-                    await articleService.UpdateArticleStock(articleSelected.Id, -articleSelected.Qte);
                 }
             }
 
             try
             {
-                orderService.Add(viewModel.ToModel());
+                await orderService.Add(viewModel.ToModel());
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -154,13 +144,13 @@ namespace Web.Controllers
         // POST: OrderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, OrderViewModel viewModel)
+        public async Task<ActionResult> Edit(int id, OrderViewModel viewModel)
         {
             if (!ModelState.IsValid) return View();
 
             try
             {
-                orderService.Update(viewModel.ToModel());
+                await orderService.Update(viewModel.ToModel());
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -179,13 +169,13 @@ namespace Web.Controllers
         // POST: OrderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, OrderViewModel viewModel)
+        public async Task<ActionResult> Delete(int id, OrderViewModel viewModel)
         {
             if (!ModelState.IsValid) return View();
 
             try
             {
-                orderService.Delete(viewModel.Id.Value);
+                await orderService.Delete(viewModel.Id!.Value);
                 return RedirectToAction(nameof(Index));
             }
             catch

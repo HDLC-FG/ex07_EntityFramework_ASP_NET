@@ -13,8 +13,6 @@ namespace Web.ViewModels
         [Display(Name = "Customer name")]
         [StringLength(100, ErrorMessage = "Customer name length can't be more than 100.")]
         public string CustomerName { get; set; } = string.Empty;
-        public string CustomerFirstName { get; set; }
-        public string CustomerLastName { get; set; }
 
         [Required]
         [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Email address is incorrect.")]
@@ -23,9 +21,8 @@ namespace Web.ViewModels
         [Required]
         [Display(Name = "Shipping address")]
         [StringLength(200, ErrorMessage = "Shipping address length can't be more than 200.")]
+        [RegularExpression(@"^[^,]+,\s[^,]+$", ErrorMessage = "Address is incorrect, it must be : Street, City")]
         public string ShippingAddress { get; set; } = string.Empty;
-        public string AddressStreet { get; set; }
-        public string AddressCity { get; set; }
 
         [Required]
         [Display(Name = "Order date")]
@@ -48,24 +45,28 @@ namespace Web.ViewModels
         [ValidateListArticlesSelected(1, ErrorMessage = "At leat one article is required.")]
         public List<ArticleSelectedViewModel>? ListArticlesSelected { get; set; }
         public List<OrderDetailViewModel> OrderDetails { get; set; } = new List<OrderDetailViewModel>();
-        public int WarehouseId { get; internal set; }
+
+        [Required]
+        public int WarehouseId { get; set; }
 
         public Order ToModel()
         {
+            var names = CustomerName.Split(' ');
+            var address = ShippingAddress.Split(", ");
             return new Order
             {
-                Id = Id!.Value,
                 Customer = new Customer
                 {
-                    FirstName = CustomerFirstName,
-                    LastName = CustomerLastName,
+                    FirstName = names[0],
+                    LastName = names.Length > 1 ? string.Join(' ', names, 1, names.Length - 1) : string.Empty,
                     Email = Email
                 },
-                Address = new ApplicationCore.ValueObjects.Address(AddressStreet, AddressCity),
+                Address = new ApplicationCore.ValueObjects.Address(address[0], address[1]),
                 OrderDate = OrderDate!.Value,
                 TotalAmount = TotalAmount!.Value,
                 OrderStatus = OrderStatus.Value.ToString(),
-                OrderDetails = OrderDetails.Select(x => x.ToModel()).ToList()
+                OrderDetails = OrderDetails.Select(x => x.ToModel()).ToList(),
+                WarehouseId = WarehouseId
             };
         }
     }

@@ -14,12 +14,8 @@ namespace Web
             {
                 Id = order.Id,
                 CustomerName = order.Customer != null ? $"{order.Customer.FirstName} {order.Customer.LastName}" : string.Empty,
-                CustomerFirstName = order.Customer?.FirstName,
-                CustomerLastName = order.Customer?.LastName,
                 Email = order.Customer?.Email,
                 ShippingAddress = $"{order.Address.Street}, {order.Address.City}",
-                AddressStreet = order.Address?.Street,
-                AddressCity = order.Address?.City,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 OrderStatus = Enum.Parse<OrderStatus>(order.OrderStatus),

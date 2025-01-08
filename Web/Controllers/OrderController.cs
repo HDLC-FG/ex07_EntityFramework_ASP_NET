@@ -13,7 +13,7 @@ namespace Web.Controllers
         private readonly IOrderService orderService;
         private readonly IOrderDetailService orderDetailService;
         private readonly IArticleService articleService;
-        private static List<ArticleSelectedViewModel> articleSelectedViewModels = new List<ArticleSelectedViewModel>();
+        private static List<ArticleSelectedViewModel> articlesSelectedViewModel = new List<ArticleSelectedViewModel>();
 
         public OrderController(IOrderService orderService,
             IOrderDetailService orderDetailService,
@@ -46,7 +46,7 @@ namespace Web.Controllers
             ViewData["OrderDetails"] = orderDetails.Select(x => x.ToViewModel()).ToList();
             var articles = await articleService.GetAll();
             ViewData["Articles"] = articles.Select(x => x.ToViewModel()).ToList();
-            ViewData["ArticlesSelected"] = articleSelectedViewModels;
+            ViewData["ArticlesSelected"] = articlesSelectedViewModel;
             return View(new OrderViewModel());
         }
 
@@ -56,7 +56,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(OrderViewModel viewModel)
         {
-            if (articleSelectedViewModels.Count > 0)
+            if (articlesSelectedViewModel.Count > 0)
             {
                 ModelState["ListArticlesSelected"].ValidationState = ModelValidationState.Valid;
             }
@@ -68,11 +68,11 @@ namespace Web.Controllers
                 var orderDetails = await orderDetailService.GetAll();
                 ViewData["OrderDetails"] = orderDetails.Select(x => x.ToViewModel()).ToList();
                 ViewData["Articles"] = articles.Select(x => x.ToViewModel()).ToList();
-                ViewData["ArticlesSelected"] = articleSelectedViewModels;
+                ViewData["ArticlesSelected"] = articlesSelectedViewModel;
                 return View(viewModel);
             }
 
-            foreach (var articleSelected in articleSelectedViewModels)
+            foreach (var articleSelected in articlesSelectedViewModel)
             {
                 var article = articles.FirstOrDefault(x => x.Id == articleSelected.Id)!;
                 if (article.StockQuantity >= articleSelected.Qte)
@@ -106,18 +106,18 @@ namespace Web.Controllers
             if (article?.StockQuantity >= articleSelected.Qte)
             {
                 articleSelected.Price = article.Price;
-                articleSelectedViewModels.Add(articleSelected);
+                articlesSelectedViewModel.Add(articleSelected);
                 success = true;
 
                 await articleService.UpdateArticleStock(articleSelected.Id, -articleSelected.Qte);
             }
 
-            ViewData["ArticlesSelected"] = articleSelectedViewModels;
+            ViewData["ArticlesSelected"] = articlesSelectedViewModel;
             return Json(new
             {
                 Success = success,
-                TotalAmount = articleSelectedViewModels.Sum(x => x.Price * x.Qte),
-                PartialView = RenderViewToString("_ListeArticles.cshtml", articleSelectedViewModels)
+                TotalAmount = articlesSelectedViewModel.Sum(x => x.Price * x.Qte),
+                PartialView = RenderViewToString("_ListeArticles.cshtml", articlesSelectedViewModel)
             });
         }
 
@@ -125,12 +125,12 @@ namespace Web.Controllers
         public async Task<IActionResult> DeleteArticle(int Id, int Qte)
         {
             await articleService.UpdateArticleStock(Id, Qte);
-            var articleToRemove = articleSelectedViewModels.Find(x => x.Id == Id);
-            articleSelectedViewModels.Remove(articleToRemove);
+            var articleToRemove = articlesSelectedViewModel.Find(x => x.Id == Id);
+            articlesSelectedViewModel.Remove(articleToRemove);
             return Json(new
             {
-                TotalAmount = articleSelectedViewModels.Sum(x => x.Price * x.Qte),
-                PartialView = RenderViewToString("_ListeArticles.cshtml", articleSelectedViewModels)
+                TotalAmount = articlesSelectedViewModel.Sum(x => x.Price * x.Qte),
+                PartialView = RenderViewToString("_ListeArticles.cshtml", articlesSelectedViewModel)
             });
         }
 
@@ -171,6 +171,8 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, OrderViewModel viewModel)
         {
+            ModelState["ListArticlesSelected"].ValidationState = ModelValidationState.Valid;
+
             if (!ModelState.IsValid) return View();
 
             try

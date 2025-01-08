@@ -39,9 +39,6 @@ namespace Web.ViewModels
         [ValidateOrderStatus(ErrorMessage = "Order status must to be : Passed, InProgress, Shipped or Delivered")]
         public OrderStatus? OrderStatus { get; set; }
 
-        //[Required]
-        //public string ArticleSelected { get; set; } = string.Empty;
-
         [ValidateListArticlesSelected(1, ErrorMessage = "At leat one article is required.")]
         public List<ArticleSelectedViewModel>? ListArticlesSelected { get; set; }
         public List<OrderDetailViewModel> OrderDetails { get; set; } = new List<OrderDetailViewModel>();

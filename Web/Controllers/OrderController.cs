@@ -146,6 +146,8 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, OrderViewModel viewModel)
         {
+            ModelState["ListArticlesSelected"].ValidationState = ModelValidationState.Valid;
+
             if (!ModelState.IsValid) return View();
 
             try

@@ -33,7 +33,7 @@ namespace TestInfrastructure.Repositories.Order
                         FirstName = "FirstName",
                         LastName = "LastName"
                     },
-                    Address = new Address("Rue de la mairie", "Rennes", "France", "35000"),
+                    Address = new Address("Rue de la mairie", "Rennes"),
                     OrderDate = new DateTime(2024, 1, 6),
                     TotalAmount = 100,
                     OrderStatus = "delivered",
@@ -59,8 +59,6 @@ namespace TestInfrastructure.Repositories.Order
                 Assert.AreEqual("LastName", order.Customer.LastName);
                 Assert.AreEqual("Rue de la mairie", order.Address.Street);
                 Assert.AreEqual("Rennes", order.Address.City);
-                Assert.AreEqual("France", order.Address.Country);
-                Assert.AreEqual("35000", order.Address.ZipCode);
                 Assert.AreEqual(new DateTime(2024, 1, 6), order.OrderDate);
                 Assert.AreEqual(100, order.TotalAmount);
                 Assert.AreEqual("delivered", order.OrderStatus);

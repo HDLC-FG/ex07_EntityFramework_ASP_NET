@@ -39,7 +39,7 @@ namespace TestInfrastructure.Repositories.Order
                 {
                     Id = 1,
                     Customer = customer,
-                    Address = new Address("Rue de la mairie", "Rennes", "France", "35000"),
+                    Address = new Address("Rue de la mairie", "Rennes"),
                     OrderDate = new DateTime(2024, 1, 6),
                     TotalAmount = 100,
                     OrderStatus = "delivered",
@@ -50,7 +50,7 @@ namespace TestInfrastructure.Repositories.Order
                 {
                     Id = 2,
                     Customer = customer,
-                    Address = new Address("Rue de la mairie", "Rennes", "France", "35000"),
+                    Address = new Address("Rue de la mairie", "Rennes"),
                     OrderDate = new DateTime(2024, 1, 6),
                     TotalAmount = 200,
                     OrderStatus = "delivered",

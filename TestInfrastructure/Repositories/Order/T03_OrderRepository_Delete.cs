@@ -33,7 +33,7 @@ namespace TestInfrastructure.Repositories.Order
                         FirstName = "FirstName",
                         LastName = "LastName"
                     },
-                    Address = new Address("Rue de la mairie", "Rennes", "France", "35000"),
+                    Address = new Address("Rue de la mairie", "Rennes"),
                     OrderDate = new DateTime(2024, 1, 6),
                     TotalAmount = 100,
                     OrderStatus = "delivered",

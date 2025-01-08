@@ -102,19 +102,19 @@ namespace Web
 
         private static async Task AddOrder(string[] valeurs, string[] columns, IFormatProvider numberFormatProvider)
         {
+            var email = valeurs[Array.IndexOf(columns, nameof(Customer.Email))];
+            var names = email.Split('@')[0].Split('.');
             var order = new Order
             {
                 Customer = new Customer
                 {
-                    FirstName = string.Empty,
-                    LastName = string.Empty,
-                    Email = valeurs[Array.IndexOf(columns, nameof(Customer.Email))]
+                    FirstName = string.Join('-', names, 0, names.Length - 1),
+                    LastName = names[names.Length - 1],
+                    Email = email
                 },
                 Address = new Address(
                     valeurs[Array.IndexOf(columns, "ShippingAddress")],
-                    valeurs[Array.IndexOf(columns, nameof(Address.City))],
-                    string.Empty,
-                    string.Empty
+                    valeurs[Array.IndexOf(columns, nameof(Address.City))]
                 ),
                 OrderDate = DateTime.Parse(valeurs[Array.IndexOf(columns, nameof(Order.OrderDate))]),
                 TotalAmount = double.Parse(valeurs[Array.IndexOf(columns, nameof(Order.TotalAmount))], numberFormatProvider),

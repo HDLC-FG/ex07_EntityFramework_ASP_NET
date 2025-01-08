@@ -15,12 +15,12 @@ namespace Infrastructure.Repositories
 
         public async Task<IList<Order>> GetAll()
         {
-            return await context.Orders.ToListAsync();
+            return await context.Orders.Include(x => x.Customer).ToListAsync();
         }
 
         public async Task<Order?> GetById(int id)
         {
-            return await context.Orders.FindAsync(id);
+            return await context.Orders.Include(x => x.Customer).SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task Add(Order entity)

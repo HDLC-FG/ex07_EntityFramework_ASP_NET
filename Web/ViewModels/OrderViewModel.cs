@@ -13,6 +13,8 @@ namespace Web.ViewModels
         [Display(Name = "Customer name")]
         [StringLength(100, ErrorMessage = "Customer name length can't be more than 100.")]
         public string CustomerName { get; set; } = string.Empty;
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
 
         [Required]
         [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Email address is incorrect.")]
@@ -22,6 +24,8 @@ namespace Web.ViewModels
         [Display(Name = "Shipping address")]
         [StringLength(200, ErrorMessage = "Shipping address length can't be more than 200.")]
         public string ShippingAddress { get; set; } = string.Empty;
+        public string AddressStreet { get; set; }
+        public string AddressCity { get; set; }
 
         [Required]
         [Display(Name = "Order date")]
@@ -53,10 +57,11 @@ namespace Web.ViewModels
                 Id = Id!.Value,
                 Customer = new Customer
                 {
-                    FirstName = CustomerName,
+                    FirstName = CustomerFirstName,
+                    LastName = CustomerLastName,
                     Email = Email
                 },
-                Address = new ApplicationCore.ValueObjects.Address(string.Empty, ShippingAddress, string.Empty, string.Empty),
+                Address = new ApplicationCore.ValueObjects.Address(AddressStreet, AddressCity),
                 OrderDate = OrderDate!.Value,
                 TotalAmount = TotalAmount!.Value,
                 OrderStatus = OrderStatus.Value.ToString(),

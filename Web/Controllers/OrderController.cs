@@ -203,6 +203,21 @@ namespace Web.Controllers
             }
         }
 
+        // GET: Article
+        public async Task<IActionResult> Statistics()
+        {
+            var orders = await orderService.GetAll();
+            var articles = await articleService.GetAll();
+
+            var viewModel = new StatisticsViewModel
+            {
+                AverageTotalAmount = Math.Round(orders.Select(x => x.TotalAmount).Average()),
+                AverageTotalArticle = Math.Round(orders.Select(x => x.OrderDetails.Count).Average(), 2),
+                BestSellingArticle = orders.SelectMany(x => x.OrderDetails).GroupBy(x => x.Article).OrderByDescending(x => x.Count()).FirstOrDefault()?.Key.ToViewModel()
+            };
+            return View(viewModel);
+        }
+
         private string RenderViewToString(string viewName, object model)
         {
             var controllerContext = ControllerContext;

@@ -1,4 +1,4 @@
-﻿namespace Web.ViewModels
+﻿namespace Web.ViewModels.Shared
 {
     public class ErrorViewModel
     {

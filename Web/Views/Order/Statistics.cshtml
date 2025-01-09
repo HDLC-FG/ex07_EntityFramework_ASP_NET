@@ -1,0 +1,35 @@
+﻿@model Web.ViewModels.StatisticsViewModel
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h1>Statistics</h1>
+
+<div>
+    <h4>StatisticsViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AverageTotalAmount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AverageTotalAmount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AverageTotalArticle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AverageTotalArticle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestSellingArticle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BestSellingArticle.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" asp-route-page="1">Back to List</a>
+</div>

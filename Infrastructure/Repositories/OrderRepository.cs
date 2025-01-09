@@ -15,7 +15,10 @@ namespace Infrastructure.Repositories
 
         public async Task<IList<Order>> GetAll()
         {
-            return await context.Orders.Include(x => x.Customer).ToListAsync();
+            return await context.Orders
+                .Include(x => x.Customer)
+                .Include(x => x.OrderDetails)
+                .ToListAsync();
         }
 
         public async Task<IList<Order>> GetAll(int page, int pageSize)

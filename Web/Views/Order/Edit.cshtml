@@ -1,4 +1,5 @@
-﻿@model Web.ViewModels.OrderViewModel
+﻿@using static ApplicationCore.Enums
+@model Web.ViewModels.OrderViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -40,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="OrderStatus" class="control-label"></label>
-                <input asp-for="OrderStatus" class="form-control" />
+                <select asp-for="OrderStatus" asp-items="Html.GetEnumSelectList<OrderStatus>()" class="form-select"></select>
                 <span asp-validation-for="OrderStatus" class="text-danger"></span>
             </div>
             <div class="form-group">

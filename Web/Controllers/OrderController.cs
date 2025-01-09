@@ -179,7 +179,7 @@ namespace Web.Controllers
 
             try
             {
-                await orderService.Delete(viewModel.Id!.Value);
+                await orderService.Delete(viewModel.Id);
                 return RedirectToAction(nameof(Index));
             }
             catch

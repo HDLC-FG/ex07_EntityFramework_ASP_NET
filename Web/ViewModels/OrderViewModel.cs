@@ -7,7 +7,7 @@ namespace Web.ViewModels
 {
     public class OrderViewModel
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Customer name")]
@@ -52,6 +52,7 @@ namespace Web.ViewModels
             var address = ShippingAddress.Split(", ");
             return new Order
             {
+                Id = Id,
                 Customer = new Customer
                 {
                     FirstName = names[0],

@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
             return await context.Orders.Include(x => x.Customer).SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public int GetTotalOrders()
+        public int GetTotal()
         {
             return context.Orders.Count();
         }

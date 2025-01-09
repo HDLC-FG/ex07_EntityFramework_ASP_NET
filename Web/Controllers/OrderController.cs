@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Web.ViewModels;
+using Web.ViewModels.Shared;
 
 namespace Web.Controllers
 {
@@ -29,15 +30,18 @@ namespace Web.Controllers
         // GET: Order?page=1
         public async Task<ActionResult> Index(int page = 1)
         {
-            var totalOrders = orderService.GetTotalOrders();
+            var totalOrders = orderService.GetTotal();
             var totalPages = Math.Ceiling(totalOrders / (double)pageSize);   //Round up to the calculation result (exemple : 45 orders, page max to draw 20 (45/20 = 2.25), result = 3 (pages needed))
 
             var orders = await orderService.GetAll(page, pageSize);
             var paginationViewModel = new PaginationViewModel<OrderViewModel>
             {
                 Items = orders.Select(x => x.ToViewModel()).ToList(),
-                CurrentPage = page,
-                TotalPages = totalPages
+                Infos = new PaginationInfosViewModels
+                {
+                    CurrentPage = page,
+                    TotalPages = totalPages
+                }
             };
 
             return View(paginationViewModel);

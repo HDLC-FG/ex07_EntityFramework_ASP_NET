@@ -17,5 +17,15 @@ namespace ApplicationCore.Services
         {
             return await customerRepository.GetAll();
         }
+
+        public async Task<IList<Customer>> GetAll(int page, int pageSize)
+        {
+            return await customerRepository.GetAll(page, pageSize);
+        }
+
+        public int GetTotal()
+        {
+            return customerRepository.GetTotal();
+        }
     }
 }

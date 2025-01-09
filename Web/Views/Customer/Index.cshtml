@@ -1,5 +1,6 @@
 ﻿@using System.Globalization
-@model IEnumerable<Web.ViewModels.CustomerViewModel>
+@using Web.ViewModels.Shared
+@model PaginationViewModel<CustomerViewModel>
 
 @{
 	ViewData["Title"] = "Index";
@@ -7,35 +8,32 @@
 
 <h1>Index</h1>
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
 <table class="table">
 	<thead>
 		<tr>
 			<th>
-				@Html.DisplayNameFor(model => model.Id)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Id)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Name)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Name)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Address)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Address)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.OrdersCount)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().OrdersCount)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.OrderTotalAmount)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().OrderTotalAmount)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.OrderAverageAmount)
+				@Html.DisplayNameFor(model => model.Items.FirstOrDefault().OrderAverageAmount)
 			</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+		@foreach (var item in Model.Items)
 		{
 			<tr>
 				<td>
@@ -60,3 +58,6 @@
 		}
 	</tbody>
 </table>
+@{
+	await Html.RenderPartialAsync("_Pagination", Model.Infos);
+}

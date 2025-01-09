@@ -28,9 +28,9 @@ namespace ApplicationCore.Services
             return await orderRepository.GetById(id);
         }
 
-        public int GetTotalOrders()
+        public int GetTotal()
         {
-            return orderRepository.GetTotalOrders();
+            return orderRepository.GetTotal();
         }
 
         public async Task Add(Order order)

@@ -20,8 +20,6 @@ namespace Web.Controllers
             return View(customers.OrderBy(x => x.Name).Select(x => x.ToViewModel()));
         }
 
-
-
         // GET: Article/Edit/5
         public async Task<IActionResult> Edit(int id)
         {

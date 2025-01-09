@@ -7,7 +7,7 @@ namespace ApplicationCore.Interfaces.Services
         Task<IList<Order>> GetAll();
         Task<IList<Order>> GetAll(int page, int pageSize);
         Task<Order?> Get(int id);
-        int GetTotalOrders();
+        int GetTotal();
         Task Add(Order order);
         Task Update(Order order);
         Task Delete(int orderId);

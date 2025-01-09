@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ApplicationCore.Interfaces.Repositories;
+﻿using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +26,21 @@ namespace Infrastructure.Repositories
         public async Task<IList<Customer>> GetAll()
         {
             return await context.Customers.Include(x => x.Orders).ToListAsync();
+        }
+
+        public async Task<IList<Customer>> GetAll(int page, int pageSize)
+        {
+            return await context.Customers
+                .OrderBy(x => x.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(x => x.Orders)
+                .ToListAsync();
+        }
+
+        public int GetTotal()
+        {
+            return context.Customers.Count();
         }
 
         public Task<Customer?> GetById(int id)

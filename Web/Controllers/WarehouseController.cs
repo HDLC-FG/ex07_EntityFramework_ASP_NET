@@ -13,34 +13,33 @@ namespace Web.Controllers
             this.warehouseService = warehouseService;
         }
 
-        // GET: WarehouseController
+        // GET: Warehouse
         public async Task<ActionResult> Index()
         {
             var warehouses = await warehouseService.GetAll();
             return View(warehouses.Select(x => Mapping.ConvertToWarehouseVM(x)));
         }
 
-        // GET: WarehouseController/Details/5
+        // GET: Warehouse/Details/5
         public async Task<ActionResult> Details(int id)
         {
             var warehouse = await warehouseService.Get(id);
             return View(Mapping.ConvertToWarehouseVM(warehouse));
         }
 
-        // GET: WarehouseController/Create
+        // GET: Warehouse/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: WarehouseController/Create
+        // POST: Warehouse/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {
-                //int newId = WarehouseController.Warehouses.Select(w => w.Id).Aggregate((previusMax, current) => { return Math.Max(previusMax, current); }) + 1;
                 Warehouse warehouse = new Warehouse();
                 ApplyFormCollectionToWarehouse(collection, warehouse);
                 await warehouseService.Add(warehouse);
@@ -52,22 +51,20 @@ namespace Web.Controllers
             }
         }
 
-        // GET: WarehouseController/Edit/5
+        // GET: Warehouse/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            // Search throught warehouses list the target warehouse by id
             var warehouse = await warehouseService.Get(id);
             return View(Mapping.ConvertToWarehouseVM(warehouse));
         }
 
-        // POST: WarehouseController/Edit/5
+        // POST: Warehouse/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, IFormCollection collection)
         {
             try
             {
-                // Search throught warehouses list the target warehouse by id
                 var warehouse = await warehouseService.Get(id);
                 if (warehouse is null)
                 {
@@ -106,15 +103,14 @@ namespace Web.Controllers
             }
         }
 
-        // GET: WarehouseController/Delete/5
+        // GET: Warehouse/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            // Search throught warehouses list the target warehouse by id
             var warehouse = await warehouseService.Get(id);
             return View(Mapping.ConvertToWarehouseVM(warehouse));
         }
 
-        // POST: WarehouseController/Delete/5
+        // POST: Warehouse/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)

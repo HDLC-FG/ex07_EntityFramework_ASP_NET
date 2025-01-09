@@ -18,9 +18,24 @@ namespace Infrastructure.Repositories
             return await context.Orders.Include(x => x.Customer).ToListAsync();
         }
 
+        public async Task<IList<Order>> GetAll(int page, int pageSize)
+        {
+            return await context.Orders
+                .OrderBy(x => x.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(x => x.Customer)
+                .ToListAsync();
+        }
+
         public async Task<Order?> GetById(int id)
         {
             return await context.Orders.Include(x => x.Customer).SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public int GetTotalOrders()
+        {
+            return context.Orders.Count();
         }
 
         public async Task Add(Order entity)

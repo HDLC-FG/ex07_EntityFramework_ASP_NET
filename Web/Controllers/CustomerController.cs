@@ -12,7 +12,7 @@ namespace Web.Controllers
             this.customerService = customerService;
         }
 
-        // GET: OrderController
+        // GET: Customer
         public async Task<ActionResult> Index()
         {
             var customers = await customerService.GetAll();

@@ -13,7 +13,7 @@ namespace Web.Controllers
             this.articleService = articleService;
         }
 
-        // GET: ArticleController
+        // GET: Article
         public async Task<IActionResult> Index()
         {
             var customers = await articleService.GetAll();
@@ -22,14 +22,14 @@ namespace Web.Controllers
 
 
 
-        // GET: ArticleController/Edit/5
+        // GET: Article/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var article = await articleService.Get(id);
             return View(article?.ToViewModel());
         }
 
-        // POST: ArticleController/Edit/5
+        // POST: Article/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ArticleUpdateStockQuantityViewModel viewModel)

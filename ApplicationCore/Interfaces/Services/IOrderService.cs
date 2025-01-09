@@ -5,7 +5,9 @@ namespace ApplicationCore.Interfaces.Services
     public interface IOrderService
     {
         Task<IList<Order>> GetAll();
+        Task<IList<Order>> GetAll(int page, int pageSize);
         Task<Order?> Get(int id);
+        int GetTotalOrders();
         Task Add(Order order);
         Task Update(Order order);
         Task Delete(int orderId);

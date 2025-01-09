@@ -18,9 +18,19 @@ namespace ApplicationCore.Services
             return await orderRepository.GetAll();
         }
 
+        public async Task<IList<Order>> GetAll(int page, int pageSize)
+        {
+            return await orderRepository.GetAll(page, pageSize);
+        }
+
         public async Task<Order?> Get(int id)
         {
             return await orderRepository.GetById(id);
+        }
+
+        public int GetTotalOrders()
+        {
+            return orderRepository.GetTotalOrders();
         }
 
         public async Task Add(Order order)

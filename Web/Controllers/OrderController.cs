@@ -10,6 +10,7 @@ namespace Web.Controllers
 {
     public class OrderController : Controller
     {
+        private const int pageSize = 20;
         private readonly IOrderService orderService;
         private readonly IOrderDetailService orderDetailService;
         private readonly IArticleService articleService;
@@ -25,21 +26,31 @@ namespace Web.Controllers
             this.articleService = articleService;
         }
 
-        // GET: OrderController
-        public async Task<ActionResult> Index()
+        // GET: Order?page=1
+        public async Task<ActionResult> Index(int page = 1)
         {
-            var orders = await orderService.GetAll();
-            return View(orders.Select(x => x.ToViewModel()));
+            var totalOrders = orderService.GetTotalOrders();
+            var totalPages = Math.Ceiling(totalOrders / (double)pageSize);   //Round up to the calculation result (exemple : 45 orders, page max to draw 20 (45/20 = 2.25), result = 3 (pages needed))
+
+            var orders = await orderService.GetAll(page, pageSize);
+            var paginationViewModel = new PaginationViewModel<OrderViewModel>
+            {
+                Items = orders.Select(x => x.ToViewModel()).ToList(),
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View(paginationViewModel);
         }
 
-        // GET: OrderController/Details/5
+        // GET: Order/Details/5
         public async Task<ActionResult> Details(int id)
         {
             var order = await orderService.Get(id);
             return View(order?.ToViewModel());
         }
 
-        // GET: OrderController/Create
+        // GET: Order/Create
         public async Task<ActionResult> Create()
         {
             var orderDetails = await orderDetailService.GetAll();
@@ -50,7 +61,7 @@ namespace Web.Controllers
             return View(new OrderViewModel());
         }
 
-        // POST: OrderController/Create
+        // POST: Order/Create
         [HttpPost]
         [ActionName("Create")]
         [ValidateAntiForgeryToken]
@@ -134,14 +145,14 @@ namespace Web.Controllers
             });
         }
 
-        // GET: OrderController/Edit/5
+        // GET: Order/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             var order = await orderService.Get(id);
             return View(order?.ToViewModel());
         }
 
-        // POST: OrderController/Edit/5
+        // POST: Order/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, OrderViewModel viewModel)
@@ -161,14 +172,14 @@ namespace Web.Controllers
             }
         }
 
-        // GET: OrderController/Delete/5
+        // GET: Order/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
             var order = await orderService.Get(id);
             return View(order?.ToViewModel());
         }
 
-        // POST: OrderController/Delete/5
+        // POST: Order/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, OrderViewModel viewModel)

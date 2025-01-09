@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Models;
+using ApplicationCore.ValueObjects;
 using Web.ViewModels;
 using static ApplicationCore.Enums;
 
@@ -13,9 +14,9 @@ namespace Web
             return new OrderViewModel
             {
                 Id = order.Id,
-                CustomerName = order.Customer != null ? $"{order.Customer.FirstName} {order.Customer.LastName}" : string.Empty,
+                CustomerName = CustomerNameFormmatter(order.Customer),
                 Email = order.Customer?.Email,
-                ShippingAddress = $"{order.Address.Street}, {order.Address.City}",
+                ShippingAddress = AddressFormatter(order.Address),
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 OrderStatus = Enum.Parse<OrderStatus>(order.OrderStatus),
@@ -50,6 +51,41 @@ namespace Web
                 Price = article.Price,
                 StockQuantity = article.StockQuantity
             };
+        }
+
+        public static CustomerViewModel ToViewModel(this Customer customer)
+        {
+            if (customer == null) return new CustomerViewModel();
+
+            int ordersCount = 0;
+            double orderTotalAmount = 0;
+            double orderAverageAmount = 0;
+            if (customer.Orders != null && customer.Orders.Count > 0)
+            {
+                ordersCount = customer.Orders.Count;
+                orderTotalAmount = customer.Orders.Sum(x => x.TotalAmount);
+                orderAverageAmount = customer.Orders.Select(x => x.TotalAmount).Average();
+            }
+
+            return new CustomerViewModel
+            {
+                Id = customer.Id,
+                Name = CustomerNameFormmatter(customer),
+                Address = AddressFormatter(customer.Address),
+                OrdersCount = ordersCount,
+                OrderTotalAmount = orderTotalAmount,
+                OrderAverageAmount = orderAverageAmount
+            };
+        }
+
+        private static string CustomerNameFormmatter(Customer customer)
+        {
+            return customer != null ? $"{customer.FirstName} {customer.LastName}" : string.Empty;
+        }
+
+        private static string AddressFormatter(Address address)
+        {
+            return $"{address.Street}, {address.City}";
         }
     }
 }

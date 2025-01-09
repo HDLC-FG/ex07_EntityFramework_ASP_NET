@@ -25,7 +25,7 @@ namespace Web
             orderService = new OrderService(orderRepository);
             orderDetailService = new OrderDetailService(orderDetailRepository);
 
-            ReadCSV("C:\\Users\\henri.libault-de-la-\\Downloads\\export (1).csv", ',', new CultureInfo("en-US")).Wait();
+            ReadCSV(Path.Combine(Directory.GetCurrentDirectory(), "export.csv"), ',', new CultureInfo("en-US")).Wait();
         }
 
         private static async Task ReadCSV(string filePath, char delimiter, IFormatProvider numberFormatProvider)
@@ -110,6 +110,11 @@ namespace Web
                 {
                     FirstName = string.Join('-', names, 0, names.Length - 1),
                     LastName = names[names.Length - 1],
+                    Address = new Address
+                    (
+                        valeurs[Array.IndexOf(columns, "ShippingAddress")],
+                        valeurs[Array.IndexOf(columns, nameof(Address.City))]
+                    ),
                     Email = email
                 },
                 Address = new Address(

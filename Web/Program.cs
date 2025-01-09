@@ -4,7 +4,7 @@ using ApplicationCore.Services;
 using Infrastructure;
 using Infrastructure.Repositories;
 
-namespace WebApplication1
+namespace Web
 {
     public class Program
     {
@@ -18,11 +18,13 @@ namespace WebApplication1
             builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             builder.Services.AddScoped<IArticleService, ArticleService>();
             builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
             builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -49,7 +51,6 @@ namespace WebApplication1
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
-
         }
     }
 }

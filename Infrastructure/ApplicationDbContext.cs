@@ -59,6 +59,9 @@ namespace Infrastructure
                 .Property(e => e.CodeAccesMD5)
                 .HasConversion(v => string.Join(";", v),
                 v => v.Split(new[] { ';' }, StringSplitOptions.None).ToList());
+
+            modelBuilder.Entity<Customer>()
+                .OwnsOne(o => o.Address);
         }
     }
 }

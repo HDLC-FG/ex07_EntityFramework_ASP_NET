@@ -6,6 +6,7 @@ namespace ApplicationCore.Interfaces.Repositories
     {
         Task<IList<Article>> GetArticlesBelowStock(int stock);
         Task<IDictionary<Article, decimal>> GetTotalSalesPerArticle();
+        Task<Article> AddArticleStock(int itemId, int quantity);
         Task<Article> UpdateArticleStock(int itemId, int quantity);
     }
 }

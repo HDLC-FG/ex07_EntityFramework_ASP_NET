@@ -25,7 +25,7 @@ namespace TestInfrastructure.Repositories.Article
 
                 var result = Assert.ThrowsExceptionAsync<Exception>(() =>
                 {
-                    return repository.UpdateArticleStock(1, 15);
+                    return repository.AddArticleStock(1, 15);
                 }).Result;
 
                 Assert.IsNotNull(result);
@@ -49,7 +49,7 @@ namespace TestInfrastructure.Repositories.Article
                 context.SaveChangesAsync().Wait();
                 var repository = new ArticleRepository(context);
 
-                var result = repository.UpdateArticleStock(1, 15).Result;
+                var result = repository.AddArticleStock(1, 15).Result;
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(1, result.Id);

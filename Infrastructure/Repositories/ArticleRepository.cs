@@ -56,11 +56,21 @@ namespace Infrastructure.Repositories
             return await tmp.ToDictionaryAsync(x => x.Article, y => y.Sum);
         }
 
-        public async Task<Article> UpdateArticleStock(int itemId, int quantity)
+        public async Task<Article> AddArticleStock(int itemId, int quantity)
         {
             var article = await context.Articles.SingleOrDefaultAsync(x => x.Id == itemId);
             if (article == null) throw new Exception("Article does not exist");
             article.StockQuantity += quantity;
+            await context.SaveChangesAsync();
+            return article;
+        }
+
+
+        public async Task<Article> UpdateArticleStock(int itemId, int quantity)
+        {
+            var article = await context.Articles.SingleOrDefaultAsync(x => x.Id == itemId);
+            if (article == null) throw new Exception("Article does not exist");
+            article.StockQuantity = quantity;
             await context.SaveChangesAsync();
             return article;
         }

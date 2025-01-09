@@ -109,7 +109,7 @@ namespace Web.Controllers
                 articlesSelectedViewModel.Add(articleSelected);
                 success = true;
 
-                await articleService.UpdateArticleStock(articleSelected.Id, -articleSelected.Qte);
+                await articleService.AddArticleStock(articleSelected.Id, -articleSelected.Qte);
             }
 
             ViewData["ArticlesSelected"] = articlesSelectedViewModel;
@@ -124,7 +124,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteArticle(int Id, int Qte)
         {
-            await articleService.UpdateArticleStock(Id, Qte);
+            await articleService.AddArticleStock(Id, Qte);
             var articleToRemove = articlesSelectedViewModel.Find(x => x.Id == Id);
             articlesSelectedViewModel.Remove(articleToRemove);
             return Json(new

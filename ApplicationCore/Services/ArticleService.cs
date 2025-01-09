@@ -28,6 +28,11 @@ namespace ApplicationCore.Services
             await articleRepository.Add(article);
         }
 
+        public async Task<Article> AddArticleStock(int itemId, int quantity)
+        {
+            return await articleRepository.AddArticleStock(itemId, quantity);
+        }
+
         public async Task<Article> UpdateArticleStock(int itemId, int quantity)
         {
             return await articleRepository.UpdateArticleStock(itemId, quantity);

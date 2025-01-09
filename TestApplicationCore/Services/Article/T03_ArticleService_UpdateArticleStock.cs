@@ -13,11 +13,11 @@ namespace TestApplicationCore.Services.ArticleService
             var mock = new Mock<IArticleRepository>(MockBehavior.Strict);
 
             var article = new Article { Id = 123 };
-            mock.Setup(x => x.UpdateArticleStock(1, 456)).ReturnsAsync(article);
+            mock.Setup(x => x.AddArticleStock(1, 456)).ReturnsAsync(article);
 
             var service = new ApplicationCore.Services.ArticleService(mock.Object);
 
-            var result = service.UpdateArticleStock(1, 456).Result;
+            var result = service.AddArticleStock(1, 456).Result;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(123, result.Id);

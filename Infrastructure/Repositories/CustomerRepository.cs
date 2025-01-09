@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
         public async Task<IList<Customer>> GetAll(int page, int pageSize)
         {
             return await context.Customers
-                .OrderBy(x => x.Id)
+                .OrderByDescending(x => x.Orders.Sum(y => y.TotalAmount))
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Include(x => x.Orders)

@@ -21,10 +21,10 @@ namespace Web.Controllers
             var totalOrders = customerService.GetTotal();
             var totalPages = Math.Ceiling(totalOrders / (double)pageSize);   //Round up to the calculation result (exemple : 25 customers, page max to draw 20 (25/20 = 1.25), result = 2 (pages needed))
 
-            var orders = await customerService.GetAll(page, pageSize);
+            var customers = await customerService.GetAll(page, pageSize);
             var paginationViewModel = new PaginationViewModel<CustomerViewModel>
             {
-                Items = orders.Select(x => x.ToViewModel()).ToList(),
+                Items = customers.Select(x => x.ToViewModel()).ToList(),
                 Infos = new PaginationInfosViewModels
                 {
                     CurrentPage = page,

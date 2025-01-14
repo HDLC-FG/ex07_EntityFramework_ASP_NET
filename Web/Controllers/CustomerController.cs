@@ -25,11 +25,8 @@ namespace Web.Controllers
             var paginationViewModel = new PaginationViewModel<CustomerViewModel>
             {
                 Items = customers.Select(x => x.ToViewModel()).ToList(),
-                Infos = new PaginationInfosViewModels
-                {
-                    CurrentPage = page,
-                    TotalPages = totalPages
-                }                
+                CurrentPage = page,
+                TotalPages = totalPages
             };
 
             return View(paginationViewModel);

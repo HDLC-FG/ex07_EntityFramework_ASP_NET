@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces.Services;
+﻿using System.Linq;
+using ApplicationCore.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -34,14 +35,21 @@ namespace Web.Controllers
             var totalPages = Math.Ceiling(totalOrders / (double)pageSize);   //Round up to the calculation result (exemple : 45 orders, page max to draw 20 (45/20 = 2.25), result = 3 (pages needed))
 
             var orders = await orderService.GetAll(page, pageSize);
+
+            //pour l'exemple : la ligne suivante compile
+            IViewModel test = new OrderViewModel();
+            //mais la ligne suivante ne compile pas ! : (visiblement problème de covariance)
+            //IList<IViewModel> test2 = new List<OrderViewModel>();
+            //alors que celle là oui mais elle ne résoud pas le problème
+            IEnumerable<IViewModel> test2 = new List<OrderViewModel>();
+            //celle là ne résoud pas le problème non plus
+            IList<IViewModel> test3 = new List<OrderViewModel>().ToList<IViewModel>();
+
             var paginationViewModel = new PaginationViewModel<OrderViewModel>
             {
                 Items = orders.Select(x => x.ToViewModel()).ToList(),
-                Infos = new PaginationInfosViewModels
-                {
-                    CurrentPage = page,
-                    TotalPages = totalPages
-                }
+                CurrentPage = page,
+                TotalPages = totalPages
             };
 
             return View(paginationViewModel);

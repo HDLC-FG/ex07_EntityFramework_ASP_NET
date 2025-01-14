@@ -5,7 +5,7 @@ using static ApplicationCore.Enums;
 
 namespace Web.ViewModels
 {
-    public class OrderViewModel
+    public class OrderViewModel : IViewModel
     {
         public int Id { get; set; }
 

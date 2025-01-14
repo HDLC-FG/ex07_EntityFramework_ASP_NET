@@ -1,5 +1,6 @@
 ﻿@using Web.ViewModels.Shared
-@model PaginationInfosViewModels
+@* Visiblement impossible d'utiliser un type Générique ici : PaginationViewModel<T>' *@
+@model PaginationViewModel<IViewModel>
 
 <div class="pagination">
     <nav aria-label="Page navigation example">

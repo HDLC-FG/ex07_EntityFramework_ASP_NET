@@ -78,7 +78,7 @@
     </tbody>
 </table>
 @{
-    await Html.RenderPartialAsync("_Pagination", Model.Infos);
+    await Html.RenderPartialAsync("_Pagination", Model);
 }
 
 <a asp-area="" asp-controller="Order" asp-action="Statistics">Statistics</a>
